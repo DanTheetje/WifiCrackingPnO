@@ -3,6 +3,8 @@ from scapy.all import *
 import time
 
 def packet_list(packets, aantal):
+    if aantal == 0:
+        aantal = len(packets)
     print("____________________________________________________________________")
     print("")
     for x in range(0,aantal):
@@ -22,7 +24,7 @@ def exam(packets, aantal):
             while t != "0":
                 print("")
                 print(packet.summary())
-                t = input("s(show) / hd(hexdump): ")
+                t = input("s(show) / hd(hexdump) / hr(hexraw): ")
                 print("")
                 if t == "s":
                     packet.show()
@@ -35,10 +37,16 @@ def exam(packets, aantal):
             hoofd()
 
 def hoofd():
+    f = input("filter: ")
     aantal = int(input("packets: "))
-    packets = sniff(count=aantal, filter="host 163.182.194.25", prn=lambda x: x.summary())
+    packets = sniff(count=aantal, filter=f, prn=lambda x: x.summary())
     exam(packets, aantal)
 
 hoofd()
 
-#163.182.194.25
+#host 163.182.194.25
+#tcp
+#udp
+#port 25 or port 110
+
+
