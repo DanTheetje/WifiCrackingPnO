@@ -77,6 +77,8 @@ def posts():
 
 @auth.route('/forum', methods=['GET'])
 def forum():
+    username = request.form.get('username')
+    user = User.query.filter_by(username=username).first()
     posts = Post.query.order_by(Post.date)
     users = User.query
-    return render_template('forum.html', posts=posts)
+    return render_template('forum.html', posts=posts, user=user)
