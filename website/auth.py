@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from .models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+import json
 
 auth = Blueprint('auth', __name__)
 
@@ -60,3 +60,23 @@ def sign_up():
 
     return render_template('sign_up.html', user=current_user)
 
+
+@auth.route('/posts', methods=['GET', 'POST'])
+@login_required
+def posts():
+    if request.method == 'POST':
+        post_title = request.form.get('title')
+        post_text = request.form.get('text')
+        new_post = Post(title=post_title, content = post_text, user_id=current_user.id, username = current_user.username)
+        db.session.add(new_post)
+        db.session.commit()
+        flash('Note added!', category='success')
+
+    return render_template('post_history.html', user=current_user)
+
+
+@auth.route('/forum', methods=['GET'])
+def forum():
+    posts = Post.query.order_by(Post.date)
+    users = User.query
+    return render_template('forum.html', posts=posts)
