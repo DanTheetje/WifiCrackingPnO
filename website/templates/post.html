@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Forum{% endblock %} {% block
+    content%}
+    <h1 align="center">Post</h1>
+    <form method="POST">
+      <h3 align="center">Title</h3>
+      <textarea name="title" id="title" class="form-control" rows="1"></textarea>
+      <h3 align="center">Text</h3>
+      <textarea name="text" id="text" class="form-control"></textarea>
+      <br \ />
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Add Post</button>
+      </div>
+    </form>
+    <br>
+    <h1 align="center">Post History</h1>
+    <ul class="list-group list-group-flush" id="Posts">
+        {% for post in user.posts %}
+        <div class="list-group-item">
+          <h5>{{ post.title }}</h5>
+          <p>{{ post.content }}</p>
+          <button type="button" class="close" onClick="deletePost({{ post.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+      </ul>
+    {% endblock %} request.form.get('post_title')

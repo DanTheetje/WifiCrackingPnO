@@ -50,7 +50,7 @@ def sign_up():
         elif len(password) < 7:
             flash('Make the password at least 7 characters long', category='error')
         else:
-            new_user = User(email=email, username=username, password=password) #If we want to encrypt the password in the database replace password=generate_password_hash(password, method="sha256")
+            new_user = User(email=email, username=username, password=password, credit=100) #If we want to encrypt the password in the database replace password=generate_password_hash(password, method="sha256")
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -59,26 +59,3 @@ def sign_up():
             
 
     return render_template('sign_up.html', user=current_user)
-
-
-@auth.route('/posts', methods=['GET', 'POST'])
-@login_required
-def posts():
-    if request.method == 'POST':
-        post_title = request.form.get('title')
-        post_text = request.form.get('text')
-        new_post = Post(title=post_title, content = post_text, user_id=current_user.id, username = current_user.username)
-        db.session.add(new_post)
-        db.session.commit()
-        flash('Note added!', category='success')
-
-    return render_template('post_history.html', user=current_user)
-
-
-@auth.route('/forum', methods=['GET'])
-def forum():
-    username = request.form.get('username')
-    user = User.query.filter_by(username=username).first()
-    posts = Post.query.order_by(Post.date)
-    users = User.query
-    return render_template('forum.html', posts=posts, user=user)

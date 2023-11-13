@@ -1,15 +1,18 @@
 {% extends "base.html" %} {% block title %}Forum{% endblock %} {% block
-content%}
-<h1 align="center">Posts</h1>
-<ul class="list-group list-group-flush" id="notes">
-  {% for post in posts %}
-  <li class="list-group-item">
-    {{ post.title }}
-    <br />
-    {{ post.username }}
-    <br />
-    {{ post.content }}
-  </li>
-  <br />{% endfor %}
-</ul>
-{% endblock %}
+    content%}
+    <h1 align="center">Forum</h1>
+    <ul class="list-group list-group-flush" id="notes">
+      {% for post in posts %}
+      <li class="list-group-item">
+        <h5>{{ post.title }}</h5>
+        <p> <i>Author: {{ post.username }} &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Date: {{post.date}} </i></p>
+        <br>
+        <p>{{ post.content }}</p>
+        <button type="button" class="" onClick="deletePost({{ post.id }})">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </li>
+      
+      <br />{% endfor %}
+    </ul>
+    {% endblock %}
