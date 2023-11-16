@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Gift Page{% endblock %} {% block
+content%}
+<h1 align="center">Transfer Credits to another user</h1>
+<form method="POST">
+  <div class="list-group-item">
+    <label for="user">Which User?</label>
+    <input
+      type="username"
+      class="form-control"
+      id="username"
+      name="username"
+      placeholder="Enter username"
+      required
+    />
+    <label for="credits">Amount of credits you want to give:</label>
+    <input
+      type="integer"
+      class="form-control"
+      id="credits"
+      name="credits"
+      placeholder="Enter Amount"
+      required
+    />
+    <button type="submit">Gift</button>
+  </div>
+</form>
+
+{% endblock %}

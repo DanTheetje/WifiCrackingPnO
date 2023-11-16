@@ -1,14 +1,42 @@
-{% extends "base.html" %} {% block title %}Profile{% endblock %} 
-{% block content %}
+{% extends "base.html" %} {% block title %}Profile{% endblock %} {% block
+content %}
+
 <h1 align="center">{{user.username}}'s Details</h1>
 <div class="list-group-item">
-    <h5>Credits:</h5> <p>{{ user.credit }}</p>
+  <h5>Credits:</h5>
+  <p>{{ user.credit }}</p>
+  <h5>Email:</h5>
+  <p>{{ user.email }}</p>
+  <h5>Password:</h5>
+  <p>{{ user.password }}</p>
 </div>
-<div class="list-group-item">
-    <h5>Email:</h5> <p>{{ user.email }}</p>
-</div>
-<div class="list-group-item">
-    <h5>Password:</h5>
-    <p>{{ user.password }}</p>
-</div>
+<form method="POST">
+  <div class="list-group-item">
+    <h4>Get more credits:</h4>
+    <label for="credits">Credits</label>
+    <input
+      type="integer"
+      class="form-control"
+      id="credits"
+      name="credits"
+      placeholder="Enter Amount"
+      required
+    />
+    <br>
+    <p>Payment method:</p>
+    <button
+      class="btn btn-primary"
+      onclick="window.location.href='https://www.google.com'"
+    >
+      Continue with Google Pay
+    </button>
+
+    <br />
+    <br />
+    <button class="btn btn-light" type="submit">Pay</button>
+</form>
+    <a type="button" class="btn btn-outline-dark" href="/gift">Gift another user</a>
+  </div>
+
+
 {% endblock %}
