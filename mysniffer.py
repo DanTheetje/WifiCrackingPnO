@@ -1,5 +1,6 @@
 from scapy.all import *
 
+
 def packet_list(packets):
     print("____________________________________________________________________")
     print("")
@@ -14,24 +15,21 @@ def exam(packets):
     x = None
     while x != -1 :
         x = input("explore packet: ")
-        if x != "":
-            x = int(x)-1
         if x == "":
             hoofd()
+        x = int(x)-1
         if x > -1:
             packet = packets[x]
             t = None
             while t != "":
                 print("")
                 print(packet.summary())
-                t = input("s(show) / hd(hexdump) / hr(hexraw): ")
+                t = input("s(show) / h(hexdump): ")
                 print("")
                 if t == "s":
                     packet.show()
-                if t == "hd":
+                if t == "h":
                     hexdump(packet)
-                if t == "hr":
-                    hexraw(packet)
             packet_list(packets)
 
 def hoofd():
