@@ -15,9 +15,13 @@ def home():
 @login_required
 def profile():
     if request.method == 'POST':
-        credits = int(request.form.get('credits'))
-        current_user.credit = current_user.credit + credits
-        db.session.commit()
+        credits = request.form.get('credits')
+        if credits.isdigit() == False:
+            flash('Please give a valid input.', "error")
+        else:
+            credits = int(credits)
+            current_user.credit = current_user.credit + credits
+            db.session.commit()
     return render_template('profile.html', user=current_user)
 
 @view.route('/post', methods=['GET', 'POST'])
@@ -76,14 +80,17 @@ def donate():
 def gift():
     if request.method == 'POST':
         username = request.form.get('username')
-        credits = int(request.form.get('credits'))
+        credits = request.form.get('credits')
         user = User.query.filter_by(username=username).first()
         if user:
             if username == current_user.username:
                 flash('You cannot gift yourself', 'error')
+            elif credits.isdigit() == False:
+                flash('Please give a valid input', 'error')
             elif current_user.credit < credits:
                 flash('You do not have enough credits.', 'error')
             else:
+                credits = int(credits)
                 user.credit = user.credit + credits
                 current_user.credit = current_user.credit - credits
                 db.session.commit()

@@ -1,5 +1,15 @@
 {% extends "base.html" %} {% block title %}Forum{% endblock %} {% block
 content%}
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+    var scrollpos = localStorage.getItem("scrollpos");
+    if (scrollpos) window.scrollTo(0, scrollpos);
+  });
+
+  window.onbeforeunload = function (e) {
+    localStorage.setItem("scrollpos", window.scrollY);
+  };
+</script>
 <h1 align="center">Forum</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% for post in posts %}
