@@ -1,16 +1,6 @@
-{% extends "base.html" %} {% block title %}Main Page{% endblock %} {% block
-content%}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-  {% for note in user.notes %}
-  <li class="list-group-item">{{ note.data }}</li>
-  {% endfor %}
-</ul>
-<form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
-  <br \ />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Add Post</button>
-  </div>
-</form>
+{% extends "base.html" %} {% block title %}Home Page{% endblock %} 
+{% block content %}
+<h1 align="center"> Welcome to our website</h1>
+<p>This website is a forum where users can post their own content and comment on each other's posts. If you like a post you can give credits to the author. These credits can be bought.</p>
+<p>You can gain access if you have registered.</p>
 {% endblock %}

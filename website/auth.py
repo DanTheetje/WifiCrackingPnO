@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from .models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+import json
 
 auth = Blueprint('auth', __name__)
 
@@ -50,7 +50,7 @@ def sign_up():
         elif len(password) < 7:
             flash('Make the password at least 7 characters long', category='error')
         else:
-            new_user = User(email=email, username=username, password=password) #If we want to encrypt the password in the database replace password=generate_password_hash(password, method="sha256")
+            new_user = User(email=email, username=username, password=password, credit=100) #If we want to encrypt the password in the database replace password=generate_password_hash(password, method="sha256")
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -59,4 +59,3 @@ def sign_up():
             
 
     return render_template('sign_up.html', user=current_user)
-
