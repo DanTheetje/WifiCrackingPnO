@@ -87,14 +87,15 @@ def gift():
                 flash('You cannot gift yourself', 'error')
             elif credits.isdigit() == False:
                 flash('Please give a valid input', 'error')
-            elif current_user.credit < credits:
-                flash('You do not have enough credits.', 'error')
             else:
                 credits = int(credits)
-                user.credit = user.credit + credits
-                current_user.credit = current_user.credit - credits
-                db.session.commit()
-                flash('Your gift has been sent!', 'success')
+                if current_user.credit < credits:
+                    flash('You do not have enough credits.', 'error')
+                else:
+                    user.credit = user.credit + credits
+                    current_user.credit = current_user.credit - credits
+                    db.session.commit()
+                    flash('Your gift has been sent!', 'success')
         else:
             flash('This user does not exist.', 'error')
     return render_template('gift.html', user=current_user)
