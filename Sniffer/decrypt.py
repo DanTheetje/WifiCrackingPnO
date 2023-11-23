@@ -20,10 +20,11 @@ def ascii_to_hex(text):
 
 
 def generate_key_stream(ppk, iv, wepdata):
+    #PPK moet in bits staan
     S = range(256)
     j = 0
     out = bytearray()
-
+    lengte_bits = len(ppk)*8
     # KSA Phase
     for i in range(256):
         j = (j + S[i] + ppk[i % len(ppk)]) % 256
