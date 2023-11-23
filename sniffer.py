@@ -1,14 +1,15 @@
 import scapy
 import pip
+
 print(pip.__version__)
 print(scapy.__version__)
-from scapy.all import *
-my_frame = Ether() / IP()
+
+my_frame = scapy.Ether() / scapy.IP()
 my_frame.show()
 print(my_frame)
 print("____________________________________________________________")
 
-packets = sniff(count=50)
+packets = scapy.sniff(count=50)
 packets.summary()
 print("___________________________________________________________")
 for x in range(50):
@@ -17,37 +18,36 @@ print("____________________________________________________________")
 
 # my_packets library aanmaken
 my_packets = {}
-my_packets[IP] = IP()
-my_packets[Ether] = Ether()
+my_packets[scapy.IP] = scapy.IP()
+my_packets[scapy.Ether] = scapy.Ether()
 
 def print_source_ethernet(frame):
-    print(frame[Ether].src)
-    pass
+    print(frame[scapy.Ether].src)
 
-sniff(count = 2, prn = print_source_ethernet)
+scapy.sniff(count = 2, prn = print_source_ethernet)
 
 def is_broadcast_frame(frame):
-    print(frame[Ether].dst)
-    if frame[Ether].dst == "ff:ff:ff:ff:ff:ff":
+    print(frame[scapy.Ether].dst)
+    if frame[scapy.Ether].dst == "ff:ff:ff:ff:ff:ff":
         print("True")
         return "True"
     else:
         print("False")
         return "False"
-    return frame[Ether].dst == "ff:ff:ff:ff:ff:ff"
+    return frame[scapy.Ether].dst == "ff:ff:ff:ff:ff:ff"
 
 print("_______________________________________________________________________________")
-frames = sniff(count = 2, lfilter = is_broadcast_frame)
+frames = scapy.sniff(count = 2, lfilter = is_broadcast_frame)
 print(frames)
-print(frames[0][Ether].dst)
+print(frames[0][scapy.Ether].dst)
 
 print("_______________________________________________________________________________")
-sniff(count = 2, prn = print_source_ethernet, lfilter= is_broadcast_frame)
+scapy.sniff(count = 2, prn = print_source_ethernet, lfilter= is_broadcast_frame)
 
 print("*******************************************************************************")
 
-frame = Ether(dst = 'aa:aa:aa:aa:aa:aa') / Raw("Hello world")
-frame[Ether].dst = 'bb:bb:bb:bb:bb:bb'
+frame = scapy.Ether(dst = 'aa:aa:aa:aa:aa:aa') / scapy.Raw("Hello world")
+frame[scapy.Ether].dst = 'bb:bb:bb:bb:bb:bb'
 frame.show()
-hexdump(frame)
+scapy.hexdump(frame)
 

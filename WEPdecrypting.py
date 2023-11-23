@@ -2,6 +2,7 @@
 # WEP Encryption
 def wep_encrypt(key, iv, plaintext):
     key_stream = generate_key_stream(key, iv, len(plaintext))
+    print(key_stream)
     ciphertext = bytearray()
 
     for i in range(len(plaintext)):
@@ -32,7 +33,9 @@ def generate_key_stream(key, iv, length):
 
 # Example usage:
 key = b'\x11\x22\x33\x44\x55'
+print(key)
 iv = b'\x12\x34\x56'
+print(iv)
 message = b'Hello, this is a secret message!'
 
 # Encryption
