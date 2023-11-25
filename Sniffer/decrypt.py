@@ -1,5 +1,4 @@
 import scapy.all as scapy
-
 # Function to convert ASCII to hex
 def ascii_to_hex(text):
     hex_result = ''.join(hex(ord(char))[2:] for char in text)
@@ -41,27 +40,35 @@ def wep_decrypt(ppk, ciphertext):
 
     return bytes(plaintext)
 
+def decryptWEP(WEP_packet,WEPkey_ascii=None):
 
-# packet selecteren
-WEP_packets = scapy.rdpcap("Sniffer/WEPdummyPacket.pcap") # dit kan later problemen veroorzaken
-for packet in WEP_packets:
-    WEP_packet = packet
-print("WEP packet has been successfully read")
-# stap 1: IV, data, key vinden
-IV_binary = WEP_packet[scapy.Dot11WEP].iv
+    # stap 1: IV, data, key vinden
+    IV_binary = WEP_packet[scapy.Dot11WEP].iv
 
-WEPdata_binary = bytearray(WEP_packet.wepdata)
+    WEPdata_binary = bytearray(WEP_packet.wepdata)
 
 
-print("Encrypted Data of packet : 0x"+WEP_packet.wepdata.hex())
-print("IV: 0x"+str(WEP_packet[scapy.Dot11WEP].iv.hex()))
+    print("Encrypted Data of packet : 0x"+WEP_packet.wepdata.hex())
+    print("IV: 0x"+str(WEP_packet[scapy.Dot11WEP].iv.hex()))
 
-WEPkey_binary = bytes.fromhex(ascii_to_hex(input("What is the WEP key?"))) # dit is ascii
-#print(WEPkey_binary.hex())
+    if WEPkey_ascii == None:
+        WEPkey_binary = bytes.fromhex(ascii_to_hex(input("\nWhat is the WEP key?"))) # invoer is ascii
+    else: WEPkey_binary= bytes.fromhex(ascii_to_hex(WEPkey_ascii))
 
-ppk = IV_binary+WEPkey_binary
-print("Per packet key: "+str(ppk))
+    ppk = IV_binary+WEPkey_binary
+    print("Per packet key: "+str(ppk))
 
-print("Decrypted package: "+str(wep_decrypt(ppk,WEPdata_binary))) # \x in de output betekend dat volgende 2 char hexadecimaal zijn
-# om alle tekens te vertalen: Zie tabel https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals
-print("To translate escape sequences: https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals")
+    decrypted_package_data = wep_decrypt(ppk,WEPdata_binary)
+    print("\nDecrypted package: "+str(decrypted_package_data)) # \x in de output betekend dat volgende 2 char hexadecimaal zijn
+
+    # om alle tekens te vertalen: Zie tabel https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals
+    print("\nTo translate escape sequences: https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals")
+
+if __name__ == "__main__":
+    # packet selecteren
+    WEP_packets = scapy.rdpcap("WEPdummyPacket.pcap") # dit kan later problemen veroorzaken
+    for packet in WEP_packets:
+        WEP_packet = packet
+    print("WEP packet has been successfully read")
+
+    decryptWEP(WEP_packet,"ESAT2")
