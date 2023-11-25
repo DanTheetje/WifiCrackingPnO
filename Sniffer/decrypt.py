@@ -64,4 +64,4 @@ print("Per packet key: "+str(ppk))
 
 print("Decrypted package: "+str(wep_decrypt(ppk,WEPdata_binary))) # \x in de output betekend dat volgende 2 char hexadecimaal zijn
 # om alle tekens te vertalen: Zie tabel https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals
-print("To translate scape sequences: https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals")
+print("To translate escape sequences: https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals")
