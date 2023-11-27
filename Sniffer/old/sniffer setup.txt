@@ -1,6 +1,6 @@
 :sudo su
 :airmon-ng check kill
-:iwconfig (determin iface name + corect iface name in sniff.py)
+:iwconfig (determin iface name + correct iface name in sniff.py)
 :airmon-ng start <iface>
 :iw dev <iface> set channel 1
 
