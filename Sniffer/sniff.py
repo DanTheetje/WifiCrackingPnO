@@ -8,7 +8,8 @@ def test(p):
 		dp = decrypt.decryptWEP(p,"ESAT2")
 		if "HTTP"in str(dp):
 			pkl.write(p)
-			print("\n"+10*"-------------------"+"\n")
+			[header, load] = dp.split(b"\r\n\r\n")
+			print("\n"+200*"_"+"\n"+header+"\n"+load+"\n")
 			return dp
 
 sniff(iface="wlan0", filter="ether src 74:da:38:eb:6f:dc or ether dst 74:da:38:eb:6f:dc", prn=test, store=0)
