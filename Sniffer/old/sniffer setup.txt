@@ -1,8 +1,8 @@
 :sudo su
 :airmon-ng check kill
-:iwconfig (determin iface name + correct iface name in sniff.py)
+:iwconfig (determin iface name + correct iface name in sniffer.py)
 :airmon-ng start <iface>
-:iw dev <iface> set channel 1
+:(sudo )iw dev <iface> set channel 1
 
 :cd home/kali/Desktop
-:sudo python sniff.py (ctr+c to stop)
+:sudo python sniffer.py (ctr+c to stop)
