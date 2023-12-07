@@ -1,4 +1,4 @@
-from scapy.all import sniff # import sniff function from the scapy library
+from scapy.all import * # import all functions from the scapy library
 from decrypt import decryptWEP # import decryptWEP function from decrypt.py
 
 # Define necessary variables
@@ -14,11 +14,11 @@ def decryptAndFilter(p):
 		dp = decryptWEP(p,WEP_key) # decrypt the WEP package
 
 		# Filter for packets containing "HTTP", "HTML" or "PASSWORD" in their data
-		if "HTTP" in str(dp) or "HTML" in str(dp).upper() or "PASSWORD" in str(dp).upper(): 
-			
+		if "HTTP" in str(dp) or "HTML" in str(dp).upper() or "PASSWORD" in str(dp).upper():
 			package_list.write(p) # Store the package to the package list
 			print("\n"+20*"-"+"\n") # Write a line to separate packages visually in the printed output
-			return dp
+			return dp # return the decrypted package
+
 # Let the user know the sniffer has started successfully		
 print("Sniffing started...")
 
