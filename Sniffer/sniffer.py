@@ -1,4 +1,4 @@
-from scapy.all import * # import all functions from the scapy library
+from scapy.all import * # import all content from the scapy library
 from decrypt import decryptWEP # import decryptWEP function from decrypt.py
 
 # Define necessary variables
