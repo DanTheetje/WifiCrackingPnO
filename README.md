@@ -1,6 +1,7 @@
 TO DO's
 
 Keep the page limit as required in Toledo. [TO BE DONE]
+
 Have an abstract [TO BE DONE]
 More discussion in the introduction, like general description of everything, introducing the topic [TO BE DONE]
 Explain more the issue with reuse of the same IV. This is the main issue with WEP. [Busy]
