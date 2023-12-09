@@ -10,7 +10,7 @@ Explain more the issue with reuse of the same IV. This is the main issue with WE
 
 In Section 1.1 you don’t talk about the sniffing. Add it. [TO BE DONE]
 
-Remove 6.4.1 FMS method and 6.4.2 The PTW method or make it much smaller. You don’t need to know all this. [TO BE DONE]
+Remove 6.4.1 FMS method and 6.4.2 The PTW method or make it much smaller. You don’t need to know all this. [SHORTENED]
 
 To be done: MitM and sniffing [TO BE DONE]
 
