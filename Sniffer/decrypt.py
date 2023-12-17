@@ -7,24 +7,22 @@ def ascii_to_hex(text):
 
 def generate_key_stream(ppk, wepdata):
 
-    #PPK staat in bytes, dit zijn 8 bytes
     S = [x for x in range(256)] #(0,1,2,3,..255)
     j = 0
     key_stream = bytearray()
 
-    #ik begrijp nog niet goed waarom 256 =2^8 ?= bits_in_ppk = len(ppk)*8?
-    # KSA Phase
+    # KSA
     for i in range(256): #
         j = (j + S[i] + ppk[i % len(ppk)]) % 256
         S[i], S[j] = S[j], S[i]
 
-    # PRGA Phase
+    # PRGA
     i = j = 0
     for i in range(len(wepdata)):
         i = (i + 1) % 256
         j = (j + S[i]) % 256
         S[i], S[j] = S[j], S[i]
-        key_stream.append(S[(S[i] + S[j]) % 256]) #chr(ord(char) ^ S[(S[i] + S[j]) % 256]))
+        key_stream.append(S[(S[i] + S[j]) % 256]) 
 
     return key_stream
 
